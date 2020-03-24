@@ -7,29 +7,38 @@ import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/icon.svg";
 import { auth } from "../../firebase/firebase.utils";
 
-const Header = ({ currentUser }) => (
-  <div className="header">
-    <Link className="logo-container" to="/">
-      <Logo className="logo" />
-    </Link>
-    <div className="options">
-      <Link className="option" to="/shop">
-        SHOP
+import { useLocation } from "react-router-dom";
+
+const Header = ({ currentUser }) => {
+  let location = useLocation();
+  return (
+    <div className="header">
+      <Link className="logo-container" to="/">
+        <Logo className="logo" />
       </Link>
-      <Link className="option" to="/contact">
-        CONTACT
-      </Link>
-      {currentUser ? (
-        <Link className="option" onClick={() => auth.signOut()}>
-          SIGN OUT{" "}
+      <div className="options">
+        <Link className="option" to="/shop">
+          SHOP
         </Link>
-      ) : (
-        <Link className="option" to="/signIn">
-          SIGN IN{" "}
+        <Link className="option" to="/contact">
+          CONTACT
         </Link>
-      )}
+        {currentUser ? (
+          <Link
+            className="option"
+            to={location.pathname}
+            onClick={() => auth.signOut()}
+          >
+            SIGN OUT{" "}
+          </Link>
+        ) : (
+          <Link className="option" to="/signIn">
+            SIGN IN{" "}
+          </Link>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Header;
