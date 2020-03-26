@@ -10,8 +10,10 @@ import { ReactComponent as Logo } from "../../assets/icon.svg";
 import { auth } from "../../firebase/firebase.utils";
 
 import { useLocation } from "react-router-dom";
+import CartIcon from "../cart-icon/cart-icon.component";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, hidden }) => {
   let location = useLocation();
   return (
     <div className="header">
@@ -38,13 +40,16 @@ const Header = ({ currentUser }) => {
             SIGN IN
           </Link>
         )}
+        <CartIcon />
       </div>
+      {hidden ? null : <CartDropdown />}
     </div>
   );
 };
 
-const mapStateTopProps = state => ({
-  currentUser: state.user.currentUser
+const mapStateTopProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser,
+  hidden
 });
 
 export default connect(mapStateTopProps)(Header);
